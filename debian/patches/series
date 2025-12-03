@@ -31,3 +31,6 @@ sec-202409-5.patch
 CVE-2025-58060.patch
 CVE-2025-58364.patch
 CVE-2025-61915.patch
+CVE-2025-58436-1.patch
+CVE-2025-58436-2.patch
+lp2133207.patch

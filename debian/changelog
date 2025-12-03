@@ -1,3 +1,19 @@
+cups (2.4.1op1-1ubuntu4.16) jammy-security; urgency=medium
+
+  * SECURITY UPDATE: Slow client communication leads to a possible DoS
+    attack
+    - debian/patches/CVE-2025-58436-1.patch: fix unresponsive cupsd process
+      caused by a slow client in cups/http-private.h, cups/http.c,
+      scheduler/client.c, scheduler/client.h, scheduler/select.c.
+    - debian/patches/CVE-2025-58436-2.patch: fix an infinite loop issue in
+      GTK+ in cups/http.c.
+    - CVE-2025-58436
+  * SECURITY REGRESSION: issue with invalid configuration (LP: #2133207)
+    - debian/patches/lp2133207.patch: fix stopping scheduler on unknown
+      directive in scheduler/conf.c.
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Wed, 03 Dec 2025 09:44:44 -0500
+
 cups (2.4.1op1-1ubuntu4.15) jammy-security; urgency=medium
 
   * SECURITY UPDATE: Local denial-of-service via cupsd.conf update and

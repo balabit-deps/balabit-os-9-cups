@@ -1,0 +1,38 @@
+From 5d5a964808fb968b707298399bb4dc3320757e85 Mon Sep 17 00:00:00 2001
+From: Zdenek Dohnal <zdohnal@redhat.com>
+Date: Wed, 3 Dec 2025 16:12:54 +0100
+Subject: [PATCH] conf.c: Fix stopping scheduler on unknown directive
+
+Change the return value to do not trigger stopping the scheduler in case
+of unknown directive, because stopping the scheduler on config errors
+should only happen in case of syntax errors.
+---
+ scheduler/conf.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+--- a/scheduler/conf.c
++++ b/scheduler/conf.c
+@@ -2687,16 +2687,16 @@ parse_variable(
+   {
+    /*
+     * Unknown directive!  Output an error message and continue...
++    *
++    * Return value 1 is on purpose - we ignore unknown directives to log
++    * error, but do not stop the scheduler in case error in configuration
++    * is set to be fatal.
+     */
+ 
+-    if (!value)
+-      cupsdLogMessage(CUPSD_LOG_ERROR, "Missing value for %s on line %d of %s.",
+-		      line, linenum, filename);
+-    else
+-      cupsdLogMessage(CUPSD_LOG_ERROR, "Unknown directive %s on line %d of %s.",
+-		      line, linenum, filename);
++    cupsdLogMessage(CUPSD_LOG_ERROR, "Unknown directive %s on line %d of %s.",
++		    line, linenum, filename);
+ 
+-    return (0);
++    return (1);
+   }
+ 
+   switch (var->type)
